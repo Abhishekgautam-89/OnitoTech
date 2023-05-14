@@ -58,4 +58,19 @@ exports.getTopRatedMovies = async (req, res) => {
     }
 }
 
+exports.subTotals = async (req, res) => {
+    try {
+        const subTotals = await Sequelize.query('SELECT movies.genres, movies.primaryTitle, SUM(ratings.numVotes) as numVotes FROM movies INNER JOIN ratings on movies.tconst=ratings.tconst GROUP BY movies.genres, movies.primaryTitle WITH ROLLUP')
+        // console.log(subTotals);
+        if(subTotals.length>0){
+        res.status(201).json({ message: "done", data: subTotals[0] });
+        }
+        else{throw("No Data Found") }
+    }
+    catch (err) {
+        // console.log("subTotal Errors>", err)
+        res.status(401).json({ message: err })
+    }
+}
+
 
