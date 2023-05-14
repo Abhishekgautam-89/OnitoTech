@@ -19,6 +19,26 @@ exports.getLongestDurationMovies = async (req, res) => {
     }
 }
 
+exports.newMovie = async (req, res)=>{
+    try {
+                
+        const newMovie = await Sequelize.query(`INSERT INTO movies (tconst, titleType, primaryTitle, runtimeMinutes, genres) VALUES ('${req.body.tconst}', '${req.body.titleType}', '${req.body.primaryTitle}', '${req.body.runtimeMinutes}', '${req.body.genres}')`)
+        
+        const ratings = await Sequelize.query(`INSERT INTO ratings (tconst, averageRating, numVotes) VALUES ('${req.body.tconst}', '${req.body.averageRating}', '${req.body.numVotes}')`)
 
+        console.log(newMovie, ratings)
+        if(newMovie.length>0 && ratings.length>0){
+            
+            res.status(201).json({message: "Success" });
+        }
+        else{
+            throw('Something went wrong');
+        }
+        
+    }
+    catch(err){
+        res.status(401).json({data:err})
+    }
+}
 
 
