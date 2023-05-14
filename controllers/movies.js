@@ -41,4 +41,21 @@ exports.newMovie = async (req, res)=>{
     }
 }
 
+exports.getTopRatedMovies = async (req, res) => {
+    try {
+        const movies = await Sequelize.query('SELECT movies.tconst, primaryTitle, genres, averageRating FROM movies INNER JOIN ratings ON movies.tconst = ratings.tconst WHERE averageRating>6 ORDER BY averageRating DESC')
+        // console.log(movies);
+        if(movies.length>0){
+            res.status(201).json({data: movies})
+        }
+        else{
+            throw("No Movies Found")
+        }
+
+    }
+    catch (err) {
+        res.status(401).json({ message: err });
+    }
+}
+
 
