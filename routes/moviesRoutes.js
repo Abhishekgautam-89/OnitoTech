@@ -7,6 +7,8 @@ router.get('/longest-duration-movies', movieController.getLongestDurationMovies)
 router.post('/new-movie', movieController.newMovie)
 router.get('/top-rated-movies', movieController.getTopRatedMovies);
 router.get('/genre-movies-with-subtotals', movieController.subTotals);
+router.get('/update-runtime-minutes', movieController.updateRunTimeMinutes);
+
 
 
 module.exports = router;

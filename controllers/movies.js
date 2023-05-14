@@ -73,4 +73,26 @@ exports.subTotals = async (req, res) => {
     }
 }
 
+exports.updateRunTimeMinutes = async (req, res) => {
+    try {
+        const updateMovies = await Sequelize.query(`UPDATE movies
+        SET runtimeMinutes = 
+            CASE 
+                WHEN genres = 'Documentary' THEN runtimeMinutes + 15
+                WHEN genres = 'Animation' THEN runtimeMinutes + 30
+                ELSE runtimeMinutes + 45
+            END;        
+        `)
+        if(updateMovies){
+        res.status(201).json({ message: "success" })
+        }
+        if(!updateMovies){
+            throw('Something went wrong')
+        }
+    }
+    catch (err) {
+        res.status(401).json({ message: err })
+    }
+}
+
 
